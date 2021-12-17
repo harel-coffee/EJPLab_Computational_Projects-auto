@@ -1,5 +1,15 @@
-test thing
-tes two
+#Photo-Crosslinking Analysis Scripts for SILAC Data
+##kNN Imputation
+**Description**: Imputes missing heavy/light values and removes proteins with quantification in less than 70% of replicates (line 70). Also computes P-Values for SILAC enrichment datasets.
+**Arguments**: Supply MaxQuant proteingroups.txt output file as the only argument
+
+##Uniprot Annotation
+**Description**: Annotates all proteins from minimalist filtering (i.e. kNN imputation) with UniProt domain and GO information
+**Arguments**: Supply contaminant/imputed protein list (i.e. from kNN imputation) as only argument
+
+##Secondary Filtering GOclustering/DomainClustering
+**Description**: Applies secondary filtering (cutoff) settings (i.e. fold-change/score/p-value) and conducts kmeans clustering based on GO terms or domains
+**Arguments**: Minimal argument is the UniProt annotated hits file (i.e. from UniProt annotation). Alternative arguments can be viewed by running script with the argument -h
 
 
 
