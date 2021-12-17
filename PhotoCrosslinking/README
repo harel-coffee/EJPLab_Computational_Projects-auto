@@ -1,5 +1,5 @@
-#Photo-Crosslinking Analysis Scripts for SILAC Data
-##kNN Imputation
+# Photo-Crosslinking Analysis Scripts for SILAC Data
+## kNN Imputation
 **Description**: Imputes missing heavy/light values and removes proteins with quantification in less than 70% of replicates (line 70). Also computes P-Values for SILAC enrichment datasets.
 **Arguments**: Supply MaxQuant proteingroups.txt output file as the only argument
 
