@@ -189,6 +189,6 @@ for index, row in final_dataframe.iterrows():
     test_result.append(pvalue)
     p_values.append(test_result)
 
-# final_dataframe['-Log10 P-value'] = np.log10(final_dataframe['P-Value']) * -1
+final_dataframe['-Log10 P-value'] = np.log10(final_dataframe['P-Value']) * -1
 
-# final_dataframe.to_csv('simplified_imputed.csv')
+final_dataframe.to_csv('simplified_imputed.csv')
