@@ -25,6 +25,7 @@ Peptide_Autoencoder_Pysar_HT.py - Trains a pySAR autoencoder on peptide manifold
 ## Scripts for Visualization  
 Cluster_Seq_pysar_Manifold_RAPIDS_Kmeans.py - Combines the sequence and pySAR manifolds and performs kmeans clustering. Generates manifold figure. Splits datasets into testing and training. (RAPIDS)  
 Make_Embedding_Figures.py - Makes UMAP embeddings for sequence and pySAR manifolds separately. (RAPIDS) 
+Cluster_Membership.py - Shows top 5 motifs in clusters.
 
 ## Optuna Studies  
 Optuna study objects are provided. They hold information on optimization history and best parameters. They are held in the following files:  
