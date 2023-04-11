@@ -11,6 +11,7 @@ DASK_StandardScaler.py - Scales data generated from previous two scripts.
 RemoveRedundantColumns.py - Needs to be found
 create_train_val_test_with_shuffle.py - Splits the array into training, validation, and testing using dask for pySAR features. WARNING: Parameter for parition size may need to be adjusted based on computer specifications.  
 split_one_hot_encodings.py - Splits the sequence datasets into the same order as the pySAR datasets.  
+check_sets.py - Checks if the Sequence set and pySAR set are of same length.
 
 The following peptide was removed: "NAAAAA" for incompatibility with pandas.
 
