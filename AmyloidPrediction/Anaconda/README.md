@@ -1,7 +1,10 @@
+# Anaconda Environments  
+## Machine Learning  
 There will be two enviorments. One for training models using the transformers library, and the other for visualizations of plots. The machine learning environment can be created from the DL_Pytorch.yml file in this folder with the following command:  
 
 conda env create -f DL_Pytorch.yml  
 
+## Visualizations  
 The visualization enviorment uses RAPIDS and can not be created directly from a yml file. Here is a list of the relavent python libraries with their versions.  
 To install rapids, please copy the command from the following link. We used version 23.02 with cuda 11.2:
 
