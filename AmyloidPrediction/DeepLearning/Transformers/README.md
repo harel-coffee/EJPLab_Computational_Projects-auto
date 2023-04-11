@@ -13,3 +13,4 @@ semi-supervised_learning_transformer.py - Generates psuedo-labels, prunes based 
 extract_model_embeddings.py - Returns the embeddings of a model. (DL_Pytorch)  
 visualize_model_embeddings.py - Uses UMAP on one percent of the peptide manifold to transform the WALTZDB database into embeddings space. (RAPIDS)  
 generate_roc_and_hist_plot.py - Generates ROC plot for specifiecd models. Also makes classification histogram for both models based on model confidence. (DL_Pytorch)   
+prospective_predictions.py - Creates preditictions from the semi-supervised transformer for the 64M peptides. (DL_Pytorch)  
