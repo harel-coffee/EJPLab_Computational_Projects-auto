@@ -10,8 +10,6 @@ HT_CV_2.py - Contains the 5-fold cross validation for the ProteinBert transforme
 semi-supervised_learning_transformer.py - Generates psuedo-labels, prunes based on model confidence, and trains new model for one epoch. (DL_Pytorch)
 
 ## Plotting Scripts
-extract_model_embeddings.py - Returns the embeddings of the model. (DL_Pytorch)  
+extract_model_embeddings.py - Returns the embeddings of a model. (DL_Pytorch)  
 visualize_model_embeddings.py - Uses UMAP on one percent of the peptide manifold to transform the WALTZDB database into embeddings space. (RAPIDS)  
-generate_roc_and_hist_plot.py - Generates ROC plot for specifiecd models. Also makes classification histogram for both models based on model confidence. (DL_Pytorch)  
-Cluster_Seq_pysar_Manifold_RAPIDS_Kmeans.py - Combines the sequence and pySAR manifolds and performs kmeans clustering. Generates manifold figure. Splits datasets into testing and training. (RAPIDS)  
-Make_Embedding_Figures.py - Makes UMAP embeddings for sequence and pySAR manifolds separately. (RAPIDS)  
+generate_roc_and_hist_plot.py - Generates ROC plot for specifiecd models. Also makes classification histogram for both models based on model confidence. (DL_Pytorch)   
