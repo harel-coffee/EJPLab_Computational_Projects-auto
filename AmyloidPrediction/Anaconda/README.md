@@ -6,7 +6,7 @@ conda env create -f DL_Pytorch.yml
 
 For the Tensorflow enviorment for running the autoencoders (DL_TFGPU):
 
-conda env create -f DL_TFGPU  
+conda env create -f DL_TFGPU.yml  
 
 ## Visualizations  
 The visualization enviorment uses RAPIDS and can not be created directly from a yml file. Here is a list of the relavent python libraries with their versions.  
