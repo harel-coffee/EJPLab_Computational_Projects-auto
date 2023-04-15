@@ -27,6 +27,8 @@ import random
 import pdb
 import glob
 
+# Peptide_Autoencoder_Pysar_HT.py - Trains a pySAR autoencoder on peptide manifold. (DL_TFGPU)  
+# To run: python Peptide_Autoencoder_Pysar_HT.py  
 n = 152
 
 # Setting Seeds and logging levels
@@ -329,19 +331,6 @@ if __name__ == "__main__":
     test_comp = encoder_model.predict_generator(generate_arrays_from_file(test_set, epochs=1, shuffle=False, batch_size=params['batch_size']))
     val_comp = encoder_model.predict_generator(generate_arrays_from_file(val_set, epochs=1, shuffle=False, batch_size=params['batch_size']))
     train_comp = encoder_model.predict_generator(generate_arrays_from_file(training_set, epochs=1, shuffle=False, batch_size=params['batch_size']))
-
-    #labels = pd.read_csv("Dataset.csv")['Class'].to_list()
-
-    #c = ['r' if i == 0 else 'b' for i in labels]
-    
-    #train_comp_red = np.array([i for idx,i in enumerate(train_comp) if idx % 1 == 0])
-    #val_comp_red = np.array([i for idx,i in enumerate(val_comp) if idx % 1 == 0])
-
-    #plt.scatter(train_comp[:,0], train_comp[:,1],c="k",s=1, alpha=0.9)
-    #plt.scatter(val_comp[:,0], val_comp[:,1],c='k',s=1, alpha=0.9)
-    #plt.scatter(test_comp[:,0],test_comp[:,1],c=c)
-
-    #plt.show()
 
     with open("Training_Set_Embeddings_Pysar.pickle", 'wb') as f:
         pickle.dump(train_comp,f)

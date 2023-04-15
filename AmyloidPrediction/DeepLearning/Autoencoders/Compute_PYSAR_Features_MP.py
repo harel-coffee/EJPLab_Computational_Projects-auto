@@ -4,6 +4,8 @@ from pySAR.descriptors import *
 from tqdm import tqdm
 import multiprocessing as mp
 
+# Compute_Pysar_Features.py - Generates PySAR features for 6-mer sequences. Excuted with the wrapper file. (DL_Pytoch)  
+
 '''
 Globals
 ''' 

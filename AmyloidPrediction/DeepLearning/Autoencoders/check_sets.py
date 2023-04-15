@@ -1,10 +1,16 @@
 import cudf
 import glob
 from tqdm import tqdm
+import sys
+
+# Used to debug. Checks if the Sequence set and pySAR set are of same length. (DL_Pytoch) 
+# To run: python check_sets.py [pysar_set] [sequence_set]
+# Prints any missing data in the sequence set from the pysar set
+
 if __name__ == "__main__":
 
-    pysar_dir = "PeptideManifoldWithPysarAutocorrelationFeatures_rescaled.csv"
-    seq_dir = "PeptideManifoldWithOneHotFeatures_Split.csv"
+    pysar_dir = sys.argv[1]
+    seq_dir = sys.argv[2]
 
     pysar_files = glob.glob(f"{pysar_dir}/*")
     seq_files = glob.glob(f"{seq_dir}/*")

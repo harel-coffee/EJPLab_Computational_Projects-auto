@@ -1,4 +1,7 @@
 import numpy as np
+
+# Compute_OneHot_Features.py - Generates one-hot encodings for the 6-mer sequences. (DL_Pytoch)  
+
 '''
 Globals
 '''

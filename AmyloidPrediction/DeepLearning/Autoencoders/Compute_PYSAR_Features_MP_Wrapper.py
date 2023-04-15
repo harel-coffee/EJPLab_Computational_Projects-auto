@@ -7,6 +7,9 @@ from pySAR.descriptors import *
 from tqdm import tqdm
 import multiprocessing as mp
 
+# Compute_Pysar_Features_MP_Wrapper.py - Handles the multiprocessing for generating the PySAR features  
+# To run: run Compute_Pysar_MP_Wrapper.py
+
 def ComputeFeatures_MP(tmp_list):
 
     outname_flag = str(tmp_list[0])

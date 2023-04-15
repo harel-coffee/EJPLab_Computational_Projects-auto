@@ -13,7 +13,10 @@ from sklearn.model_selection import StratifiedShuffleSplit
 from matplotlib import colors
 from collections import Counter
 import seaborn as sns
+import sys
 
+
+# 
 if __name__ == "__main__":
 
     DIVISOR = 10
@@ -47,17 +50,10 @@ if __name__ == "__main__":
 
     concat_data = np.concatenate([val_pysar, test_pysar], axis=0)
 
-    n_clusters = 22
+    n_clusters = int(sys.argv[1])
 
     kmeans = KMeans(n_clusters=n_clusters)
     kmeans.fit(train_pysar)
-
-    def remove_outliers(arr, labels, k):
-        mu, sigma = np.mean(arr, axis=0), np.std(arr, axis=0)
-        mask = np.all(np.abs((arr - mu) / sigma) < k, axis=1)
-        labels = labels[mask]
-        arr = arr[mask]
-        return arr, labels
 
     test_labels = pd.read_csv("Test_Set.csv")['Class'].to_numpy()
     val_labels = pd.read_csv("Validation_Set.csv")['Class'].to_numpy()
@@ -85,7 +81,7 @@ if __name__ == "__main__":
     motifs_by_cluster_normalized = {}
     for cluster in range(n_clusters):
         cluster_sequences = X[y == cluster]
-        common_motifs_normalized = find_common_motifs_normalized(cluster_sequences, 2)
+        common_motifs_normalized = find_common_motifs_normalized(cluster_sequences, int(sys.argv[2]))
         motifs_by_cluster_normalized[cluster] = common_motifs_normalized
         print(f"Cluster {cluster}: {common_motifs_normalized}")
 

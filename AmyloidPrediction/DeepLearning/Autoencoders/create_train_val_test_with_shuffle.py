@@ -2,18 +2,16 @@ import pandas as pd
 import dask.dataframe as dd
 from dask.array.slicing import shuffle_slice
 import numpy as np
+import sys
 
-np.random.seed(420)
+#create_train_val_test_with_shuffle.py - Splits the array into training, validation, and testing using dask for pySAR features. WARNING: Parameter for parition size may need to be adjusted based on computer specifications. (DL_Pytoch) NEEDS FIXING  
+# To run: python create_train_val_test_with_shuffle.py [pysar_set]  
+
+np.random.seed(42)
 
 if __name__ == "__main__":
 
-    real_columns = ['Sequence']
-    numbers = [i for i in range(121)]
-    real_columns += numbers
-
-    df = dd.read_csv("PeptideManifoldWithOneHotFeatures.csv", blocksize="100MB").reset_index()
-    df.columns = real_columns
-    df = df.drop(120, axis=1)
+    df = dd.read_csv(f"{sys.argv[1]}/*", blocksize="100MB").reset_index()
 
     mutants_in_test = pd.read_csv("Dataset.csv")['name'].to_list()
 

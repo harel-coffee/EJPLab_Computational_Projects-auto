@@ -1,9 +1,13 @@
 import sys
 import numpy as np
-import dask.dataframe as dd
+import dask_cudf as dd
 from dask import array as da
 from sklearn.preprocessing import StandardScaler
 from tqdm import tqdm
+
+
+# DASK_StandardScaler.py - Scales data generated from previous two scripts. (DL_Pytoch)  
+# To run: python DASK_StandardScaler.py [pysar_set]  
 
 if __name__ == "__main__":
 

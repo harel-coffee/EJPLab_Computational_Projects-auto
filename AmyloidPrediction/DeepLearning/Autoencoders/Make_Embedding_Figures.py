@@ -9,6 +9,8 @@ from cuml import KMeans
 from sklearn.metrics import davies_bouldin_score
 from tqdm import tqdm
 
+# Make_Embedding_Figures.py - Makes UMAP embeddings for sequence and pySAR manifolds separately. (RAPIDS) 
+# To Run: python Make_Embedding_Figures.py  
 
 sns.set_palette('colorblind')
 plt.rc('legend', fontsize=13)
@@ -51,7 +53,7 @@ if __name__ == "__main__":
 
     train_pysar = train_pysar[np.random.choice(train_pysar.shape[0], int(train_pysar.shape[0]/DIVISOR), replace=False), :]
     
-    """scores = {}
+    scores = {}
     for i in tqdm(range(2,100, 2)):
         kmeans = KMeans(n_clusters=i, max_iter=300)
         kmeans.fit(train_pysar)
@@ -62,8 +64,7 @@ if __name__ == "__main__":
     plt.plot(scores.keys(), scores.values())
     plt.show()
     
-    n_clusters = int(input("Choose N Clusters: "))"""
-    n_clusters = 22
+    n_clusters = int(input("Choose N Clusters: "))
 
     # pysar Sets
     umap_obj = UMAP(n_neighbors=15)
@@ -117,7 +118,7 @@ if __name__ == "__main__":
     train_seq = train_seq[np.random.choice(train_seq.shape[0], int(train_seq.shape[0]/DIVISOR), replace=False), :]
 
     # Sequence Sets
-    """scores = {}
+    scores = {}
     for i in tqdm(range(2,100, 2)):
         kmeans = KMeans(n_clusters=i, max_iter=300)
         kmeans.fit(train_seq)
@@ -128,8 +129,7 @@ if __name__ == "__main__":
     plt.plot(scores.keys(), scores.values())
     plt.show()
     
-    n_clusters = int(input("Choose N Clusters: "))"""
-    n_clusters = 22
+    n_clusters = int(input("Choose N Clusters: "))
 
     # pysar Sets
     umap_obj = UMAP(n_neighbors=100)

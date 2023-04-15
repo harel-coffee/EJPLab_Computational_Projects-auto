@@ -13,6 +13,10 @@ from sklearn.model_selection import StratifiedShuffleSplit
 from matplotlib import colors
 
 import seaborn as sns
+
+# Cluster_Seq_pysar_Manifold_RAPIDS_Kmeans.py - Combines the sequence and pySAR manifolds and performs kmeans clustering. Generates manifold figure. Splits datasets into testing and training. (RAPIDS)  
+# To run: python Cluster_Seq_Pysar_Manfiolds_Rapids_Kmeans.py  
+
 sns.set_palette('colorblind')
 plt.rc('legend', fontsize=13)
 plt.rcParams["figure.figsize"] = (10,10)
@@ -62,7 +66,7 @@ if __name__ == "__main__":
 
     concat_data = np.concatenate([val_pysar, test_pysar], axis=0)
 
-    """scores = {}
+    scores = {}
     for i in tqdm(range(2,100, 2)):
         kmeans = KMeans(n_clusters=i, max_iter=300)
         kmeans.fit(train_seq)
@@ -71,10 +75,9 @@ if __name__ == "__main__":
         scores.update({i:score})
 
     plt.plot(scores.keys(), scores.values())
-    plt.show()"""
+    plt.show()
 
-    n_clusters = 22
-
+    n_clusters = input("Chosen number of clusters: ")
     kmeans = KMeans(n_clusters=n_clusters)
     kmeans.fit(train_pysar)
 

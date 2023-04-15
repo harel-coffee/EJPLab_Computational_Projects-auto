@@ -29,10 +29,13 @@ import glob
 
 n = 120
 
+# Peptide_Autoencoder_HT_Seq.py - Trains a sequence autoencoder on peptide manifold. (DL_TFGPU)  
+# To run: python Peptide_Autoecncoder_HT_Seq.py  
+
 # Setting Seeds and logging levels
-tf.random.set_seed(420)
-np.random.seed(420)
-os.environ['PYTHONHASHSEED']=str(420)
+tf.random.set_seed(42)
+np.random.seed(42)
+os.environ['PYTHONHASHSEED']=str(42)
 session_conf = tf.compat.v1.ConfigProto(intra_op_parallelism_threads=1, inter_op_parallelism_threads=1)
 sess = tf.compat.v1.Session(graph=tf.compat.v1.get_default_graph(), config=session_conf)
 tf.compat.v1.keras.backend.set_session(sess)
