@@ -20,7 +20,7 @@ To run: python DASK_StandardScaler.py [pysar_set]
 RemoveRedundantColumns.py - Remove columns with 0 variance (all 0's). (RAPIDS)  
 To run: python RemoveRedundantColumns.py [pysar_set]
 
-create_train_val_test_with_shuffle.py - Splits the array into training, validation, and testing using dask for pySAR features. WARNING: Parameter for parition size may need to be adjusted based on computer specifications. (DL_Pytoch) NEEDS FIXING  
+create_train_val_test_with_shuffle.py - Splits the array into training, validation, and testing using dask for pySAR features. WARNING: Parameter for parition size may need to be adjusted based on computer specifications. (DL_Pytoch)
 To run: python create_train_val_test_with_shuffle.py [pysar_set]  
 
 split_one_hot_encodings.py - Splits the sequence datasets into the same order as the pySAR datasets. (DL_Pytoch)  
