@@ -24,6 +24,10 @@ import pdb
 import optuna
 from sklearn.model_selection import StratifiedShuffleSplit
 import pickle
+import sys
+
+# prospective_predictions.py - Creates preditictions from the semi-supervised transformer for the 64M peptides. (DL_Pytorch)  
+# To run: `python prospective_predictions.py [model]`  
 
 os.environ["WANDB_DISABLED"] = "true"
 random.seed(42)
@@ -47,15 +51,15 @@ def compute_metrics_fine(eval_pred):
     precision, recall, f1, _ = precision_recall_fscore_support(labels, predictions,average='binary')
     return {"accuracy": accuracy, "precision": precision, "recall": recall, "f1": f1}
 
+model = sys.argv[1]
 tokenizer = BertTokenizer.from_pretrained("Rostlab/prot_bert", do_lower_case=False )
 
-model = ORTModelForSequenceClassification.from_pretrained("Best_Peptide_Model_Ever.model", from_transformers=True)
+model = ORTModelForSequenceClassification.from_pretrained(model, from_transformers=True)
 manifold = pd.read_csv("PeptideManifold.csv",header=None)
 CONF_THRESH = 0.8
 len_manifold = len(manifold)
 label_to_num = {"LABEL_0":0, "LABEL_1":1}
 
-model = ORTModelForSequenceClassification.from_pretrained("best_model_trained_on_whole_datasets.model", from_transformers=True)
 piplin = pipeline('text-classification',model=model,tokenizer=tokenizer, batch_size=5000, device=0)
 sequences = manifold[0].to_list()
 sequences = [" ".join(list(i)) for i in sequences]

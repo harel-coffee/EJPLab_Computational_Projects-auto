@@ -24,6 +24,10 @@ import pdb
 import optuna
 from sklearn.model_selection import StratifiedShuffleSplit
 import pickle
+import sys
+
+# semi-supervised_learning_transformer.py - Generates psuedo-labels, prunes based on model confidence, and trains new model for one epoch. (DL_Pytorch)  
+# To run: `python semi_supervised_learning_transformer.py [base_model]`  
 
 os.environ["WANDB_DISABLED"] = "true"
 random.seed(42)
@@ -49,9 +53,10 @@ def compute_metrics_fine(eval_pred):
 
 if __name__ == "__main__":
 
+    base_model = sys.argv[1]
     # Starting dataset is the WaltzDB
-    train_csv_path = "Clustered_Train_Set.csv"
-    test_csv_path = "Clustered_Test_Set.csv"
+    train_csv_path = "TrainingDataset.csv"
+    test_csv_path = "TestingDataset.csv"
 
     dataset = load_dataset('csv', data_files={'train': train_csv_path,
                                             'test': test_csv_path,})
@@ -70,12 +75,11 @@ if __name__ == "__main__":
     CONF_THRESH = 0.8
     len_manifold = len(manifold)
     label_to_num = {"LABEL_0":0, "LABEL_1":1}
-
     
 
     ##### ROUND 2 FIGHT #####
 
-    model = ORTModelForSequenceClassification.from_pretrained("best_model_trained_on_whole_datasets.model", from_transformers=True)
+    model = ORTModelForSequenceClassification.from_pretrained(base_model, from_transformers=True)
     
     piplin = pipeline('text-classification',model=model,tokenizer=tokenizer, batch_size=5000, device=0)
     #sequences = sub_manifold[0].to_list()
@@ -98,34 +102,11 @@ if __name__ == "__main__":
     scores_df = scores_df.loc[scores_df['Score'] > CONF_THRESH]
     # Removing test set
     scores_df = scores_df.loc[~scores_df['Sequence'].isin(tokenized_dataset['test']['Sequence'])]
-    # Removing val set
-    #scores_df = scores_df.loc[~scores_df['Sequence'].isin(split_train_dataset_obj['test']['Sequence'])]
-    # Storing the train set to add back
-    #train_df = scores_df.loc[scores_df['Sequence'].isin(split_train_dataset_obj['train']['Sequence'])]
-    #scores_df = scores_df.drop(train_df.index, axis=0)
-    # Getting 1% with similar labels to bulk
 
-    #sequences = scores_df['Sequence'].to_list()
-    #labels = scores_df['label'].to_list()
-    #sss = StratifiedShuffleSplit(test_size=0.01, random_state=42)
-    #train_idx, test_idx = next(sss.split(sequences, labels))
-
-    # Going to 1%
-    #scores_df = scores_df.iloc[test_idx]
-    # Adding the OG training set back in
-    #scores_df = pd.concat([scores_df, train_df], axis=0)
 
     new_dataset = Dataset.from_pandas(scores_df)
     new_tokenized_dataset = new_dataset.map(lambda batch: tokenizer(batch["Sequence"]), batched=True)
     new_tokenized_dataset.set_format("torch",columns=["input_ids", "attention_mask", "label"])
-    #new_split_train_dataset_obj = new_tokenized_dataset.train_test_split(0.02, seed=42)
-
-    #study2 = optuna.create_study(direction='maximize',sampler=optuna.samplers.TPESampler(seed=SEED))
-    #study2.optimize(objective2, n_trials=25, n_jobs=1, show_progress_bar=True)
-    #best_params = study2.best_trial.params
-
-    #with open("Best_Params_For_Second_Model.params") as f:
-        #pickle.dump(best_params, f)
     
     m = BertForSequenceClassification.from_pretrained("Rostlab/prot_bert", num_labels=2)
     batch_size = 512

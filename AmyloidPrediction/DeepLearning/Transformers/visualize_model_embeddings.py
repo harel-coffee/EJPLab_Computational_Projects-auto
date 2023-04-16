@@ -30,17 +30,13 @@ if __name__ == "__main__":
     test_embeddings = pickle.load(open("Embedding_of_Transformer_Test.pickle", 'rb'))
 
     combined_embeddings = np.concatenate([train_embeddings, test_embeddings], axis=0)
-    #train_embeddings = np.concatenate([train_embeddings, test_embeddings], axis=0)
-    #pca = PCA(n_components = 100)
-    #train_embeddings = pca.fit_transform(train_embeddings)
     
     umap = UMAP(n_neighbors=100)
     umap.fit(big_embeddings)
     umap_embeddings = umap.transform(combined_embeddings)
 
-
-    train = pd.read_csv("OLD_TrainingDataset.csv")
-    test = pd.read_csv("OLD_TestingDataset.csv")
+    train = pd.read_csv("TrainingDataset.csv")
+    test = pd.read_csv("TestingDataset.csv")
     total_df = pd.concat([train, test], axis=0)
     labels = train['label'].to_list() + test['label'].to_list()
 

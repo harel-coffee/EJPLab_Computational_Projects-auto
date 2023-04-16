@@ -20,6 +20,8 @@ from transformers import BertForSequenceClassification
 import pickle
 from datetime import datetime
 
+# HT_CV_2.py - Contains the 5-fold cross validation for the ProteinBert transformer. (DL_Pytorch)  
+# To run: `python HT_CV_2.py`  
 os.environ["WANDB_DISABLED"] = "true"
 random.seed(42)
 np.random.seed(42)

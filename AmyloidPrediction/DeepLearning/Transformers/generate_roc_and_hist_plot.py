@@ -10,6 +10,7 @@ import torch
 import seaborn as sns
 import numpy as np
 from scipy.interpolate import interp1d
+import sys
 
 sns.set_palette('colorblind')
 plt.rc('legend', fontsize=13)
@@ -100,14 +101,20 @@ def PlotHistogram(labs, probs, title):
 
 if __name__ == "__main__":
 
-    test_df = pd.read_csv("OLD_TestingDataset.csv")
+    model_1 = sys.argv[1]
+    model_2 = sys.argv[2]
+    hist_name_1 = sys.argv[3]
+    hist_name_2 = sys.argv[4]
+    roc_plot_name = sys.argv[5]
+
+    test_df = pd.read_csv("TestingDataset.csv")
     y_true = test_df['label'].to_list()
     sequences = test_df['Sequence'].to_list()
     sequences = [" ".join(list(i)) for i in sequences]
     test_df['Sequence'] = sequences
 
     tokenizer = BertTokenizer.from_pretrained("Rostlab/prot_bert", do_lower_case=False, output_hidden_states=True )
-    model = BertForSequenceClassification.from_pretrained("CV_Best_Peptide_Model.model")
+    model = BertForSequenceClassification.from_pretrained(model_1)
 
     dataset = datasets.Dataset.from_pandas(test_df)
     tokenized_dataset = dataset.map(lambda batch: tokenizer(batch["Sequence"]), batched=True)
@@ -132,9 +139,9 @@ if __name__ == "__main__":
     roc_auc_init = auc(fpr_init, tpr_init)
 
     # Classification histogram
-    PlotHistogram(y_true, y_score, "Original_Transformer_Class_Hist.png")
+    PlotHistogram(y_true, y_score, hist_name_1)
 
-    model = BertForSequenceClassification.from_pretrained("Best_Peptide_Model_Ever.model")
+    model = BertForSequenceClassification.from_pretrained(model_2)
 
     model.eval()
     with torch.no_grad():
@@ -154,7 +161,7 @@ if __name__ == "__main__":
     # Calculate AUC
     roc_auc_semi = auc(fpr_semi, tpr_semi)
 
-    PlotHistogram(y_true, y_score, "SS_Transformer_Class_Hist.png")
+    PlotHistogram(y_true, y_score, hist_name_2)
     # Plot ROC curve
     plt.rcParams["figure.figsize"] = (10, 10)
 
@@ -168,5 +175,5 @@ if __name__ == "__main__":
     plt.ylabel('True Positive Rate')
     plt.title('Receiver Operating Characteristic (ROC) Curve')
     plt.legend(loc="lower right")
-    plt.savefig("ROC_Plot_of_Transformers.png")
+    plt.savefig(roc_plot_name)
     plt.close()

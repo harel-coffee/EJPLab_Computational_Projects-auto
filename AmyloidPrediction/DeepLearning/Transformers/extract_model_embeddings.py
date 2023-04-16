@@ -13,6 +13,10 @@ import pickle
 import pdb
 import polars as pl
 import os
+import sys
+
+# extract_model_embeddings.py - Returns the embeddings of a model. (DL_Pytorch)  
+# To run: `run extract_model_embeddings.py [model]`  
 
 sns.set_palette('colorblind')
 plt.rc('legend', fontsize=13)
@@ -27,60 +31,6 @@ plt.rc('font', size=13)          # controls default
 plt.rcParams["axes.edgecolor"] = "black"
 plt.rcParams["axes.linewidth"] = 1
 plt.rcParams['axes.prop_cycle'] = plt.cycler(color=sns.color_palette())
-
-# CPU Version
-"""def get_hidden_states(df, data_big=False):
-    dataset = datasets.Dataset.from_pandas(df)
-    tokenized_dataset = dataset.map(lambda batch: tokenizer(batch["Sequence"]), batched=True)
-    tokenized_dataset.set_format("torch",columns=["input_ids", "attention_mask", "label"])
-    dataloader = DataLoader(tokenized_dataset, batch_size=1000, shuffle=False)
-    
-    all_hidden_states = np.empty((0, 31, 8, 1024))
-
-    model.eval()
-    with torch.no_grad():
-        predictions = []
-        for idx,batch in enumerate(dataloader):
-            labels, input_ids, attention_mask = batch['label'], batch['input_ids'], batch['attention_mask']
-            input_ids = input_ids.to(device)
-            attention_mask = attention_mask.to(device)
-            output = model(input_ids, attention_mask=attention_mask, output_hidden_states=True)
-            hidden_states = np.array([i.cpu().detach().numpy() for i in output.hidden_states])
-            hidden_states = hidden_states.transpose((1, 0, 2, 3))
-            all_hidden_states = np.concatenate([all_hidden_states, hidden_states], axis=0)
-    
-
-    all_hidden_states = np.max(all_hidden_states, axis=1)
-    all_hidden_states = np.mean(all_hidden_states, axis=1)
-
-    return all_hidden_states"""
-
-def get_hidden_states(df):
-    dataset = datasets.Dataset.from_pandas(df)
-    tokenized_dataset = dataset.map(lambda batch: tokenizer(batch["Sequence"]), batched=True)
-    tokenized_dataset.set_format("torch",columns=["input_ids", "attention_mask", "label"])
-    dataloader = DataLoader(tokenized_dataset, batch_size=100, shuffle=False)
-    
-    all_hidden_states = torch.empty((0, 31, 8, 1024), device=device)
-
-    model.eval()
-    with torch.no_grad():
-
-        for idx,batch in enumerate(dataloader):
-            labels, input_ids, attention_mask = batch['label'], batch['input_ids'], batch['attention_mask']
-            input_ids = input_ids.to(device)
-            attention_mask = attention_mask.to(device)
-            output = model(input_ids, attention_mask=attention_mask, output_hidden_states=True)
-
-            hidden_states = torch.stack(output.hidden_states).transpose(0, 1)
-            all_hidden_states = torch.cat([all_hidden_states, hidden_states], dim=0)
-    
-        
-
-    all_hidden_states = torch.max(all_hidden_states, dim=1)[0]
-    all_hidden_states = torch.mean(all_hidden_states, dim=1).cpu().numpy()
-
-    return all_hidden_states
 
 def get_hidden_states(df, batch_size=100):
 
@@ -114,8 +64,10 @@ def get_hidden_states(df, batch_size=100):
 
 if __name__ == "__main__":
 
-    test_df = pd.read_csv("OLD_TestingDataset.csv")
-    train_df = pd.read_csv("OLD_TrainingDataset.csv")
+    model = sys.argv[1]
+
+    test_df = pd.read_csv("TestingDataset.csv")
+    train_df = pd.read_csv("TrainingDataset.csv")
     big_df = pl.read_csv("PeptideManifold.csv")
     big_df.columns = ["Sequence"]
 
@@ -136,7 +88,7 @@ if __name__ == "__main__":
     big_df = big_df.to_pandas()
 
     tokenizer = BertTokenizer.from_pretrained("Rostlab/prot_bert", do_lower_case=False, output_hidden_states=True )
-    model = BertForSequenceClassification.from_pretrained("Best_Peptide_Model_Ever.model")
+    model = BertForSequenceClassification.from_pretrained(model)
     
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     model.to(device)
